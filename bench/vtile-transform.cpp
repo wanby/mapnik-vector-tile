@@ -1,6 +1,6 @@
-#include <mapnik/geometry_correct.hpp>
+#include <mapnik/geometry/correct.hpp>
 #include <mapnik/projection.hpp>
-#include <mapnik/geometry_transform.hpp>
+#include <mapnik/geometry/transform.hpp>
 #include <mapnik/util/file_io.hpp>
 #include <mapnik/json/geometry_parser.hpp>
 #include <mapnik/timer.hpp>

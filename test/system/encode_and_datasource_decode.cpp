@@ -2,8 +2,8 @@
 
 // mapnik
 #include <mapnik/geometry.hpp>
-#include <mapnik/geometry_strategy.hpp>
-#include <mapnik/geometry_transform.hpp>
+#include <mapnik/geometry/strategy.hpp>
+#include <mapnik/geometry/transform.hpp>
 
 // mapnik-vector-tile
 #include "vector_tile_geometry_encoder_pbf.hpp"

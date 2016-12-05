@@ -1,7 +1,7 @@
 #include <limits>
 #include <iostream>
 #include <mapnik/projection.hpp>
-#include <mapnik/geometry_transform.hpp>
+#include <mapnik/geometry/transform.hpp>
 
 #include "vector_tile_strategy.hpp"
 #include "vector_tile_projection.hpp"
