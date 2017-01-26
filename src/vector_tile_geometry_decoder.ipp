@@ -2,7 +2,7 @@
 #include <protozero/pbf_reader.hpp>
 
 //mapnik
-#include <mapnik/box2d.hpp>
+#include <mapnik/geometry/box2d.hpp>
 #include <mapnik/geometry.hpp>
 #if defined(DEBUG)
 #include <mapnik/debug.hpp>
@@ -13,10 +13,10 @@
 #include <cmath>
 #include <stdexcept>
 
-namespace mapnik 
-{ 
-    
-namespace vector_tile_impl 
+namespace mapnik
+{
+
+namespace vector_tile_impl
 {
 
 namespace detail
@@ -48,7 +48,7 @@ inline void move_cursor(value_type & x, value_type & y, std::int32_t dx, std::in
 
 
 template <typename value_type>
-inline value_type get_point_value(value_type const val, 
+inline value_type get_point_value(value_type const val,
                                   double const scale_val,
                                   double const tile_loc)
 {
@@ -56,7 +56,7 @@ inline value_type get_point_value(value_type const val,
 }
 
 template <>
-inline double get_point_value<double>(double const val, 
+inline double get_point_value<double>(double const val,
                                       double const scale_val,
                                       double const tile_loc)
 {
@@ -64,8 +64,8 @@ inline double get_point_value<double>(double const val,
 }
 
 template <typename geom_value_type>
-void decode_point(mapnik::geometry::geometry<geom_value_type> & geom, 
-                  GeometryPBF & paths, 
+void decode_point(mapnik::geometry::geometry<geom_value_type> & geom,
+                  GeometryPBF & paths,
                   geom_value_type const tile_x,
                   geom_value_type const tile_y,
                   double const scale_x,
@@ -89,7 +89,7 @@ void decode_point(mapnik::geometry::geometry<geom_value_type> & geom,
         {
             geom = mapnik::geometry::geometry_empty();
             return;
-        } 
+        }
         else if (bbox.intersects(x1_, y1_))
         {
             #if defined(DEBUG)
@@ -145,7 +145,7 @@ void decode_point(mapnik::geometry::geometry<geom_value_type> & geom,
 }
 
 template <typename geom_value_type>
-void decode_linestring(mapnik::geometry::geometry<geom_value_type> & geom, 
+void decode_linestring(mapnik::geometry::geometry<geom_value_type> & geom,
                        GeometryPBF & paths,
                        geom_value_type const tile_x,
                        geom_value_type const tile_y,
@@ -198,11 +198,11 @@ void decode_linestring(mapnik::geometry::geometry<geom_value_type> & geom,
                 }
             }
             else //cmd == GeometryPBF::end
-            {   
+            {
                 if (version == 1)
                 {
                     // Version 1 of the spec wasn't clearly defined and therefore
-                    // we shouldn't be strict on the reading of a tile that has only a moveto 
+                    // we shouldn't be strict on the reading of a tile that has only a moveto
                     // command. So lets just ignore this moveto command.
                     break;
                 }
@@ -253,12 +253,12 @@ void decode_linestring(mapnik::geometry::geometry<geom_value_type> & geom,
         if (cmd == GeometryPBF::end)
         {
             break;
-        } 
+        }
         // else we are guaranteed it is a moveto
         x0 = x1;
         y0 = y1;
     }
-    
+
     std::size_t num_lines = multi_line.size();
     if (num_lines == 0)
     {
@@ -284,7 +284,7 @@ void decode_linestring(mapnik::geometry::geometry<geom_value_type> & geom,
 
 template <typename geom_value_type>
 void decode_polygon(mapnik::geometry::geometry<geom_value_type> & geom,
-                    GeometryPBF & paths, 
+                    GeometryPBF & paths,
                     geom_value_type const tile_x,
                     geom_value_type const tile_y,
                     double scale_x,
@@ -482,7 +482,7 @@ void decode_polygon(mapnik::geometry::geometry<geom_value_type> & geom,
         {
             rings.pop_back();
         }
-        ring_area = 0.0;  
+        ring_area = 0.0;
 
         cmd = paths.ring_next(x0, y0, false);
         if (cmd == GeometryPBF::end)
@@ -503,7 +503,7 @@ void decode_polygon(mapnik::geometry::geometry<geom_value_type> & geom,
     }
 
     if (rings.size() == 0)
-    {   
+    {
         geom = mapnik::geometry::geometry_empty();
         return;
     }
@@ -558,7 +558,7 @@ GeometryPBF::GeometryPBF(pbf_itr const& geo_iterator)
       geo_end_itr_(geo_iterator.end()),
       x(0),
       y(0),
-      ox(0), 
+      ox(0),
       oy(0),
       length(0),
       cmd(move_to)
@@ -570,7 +570,7 @@ GeometryPBF::GeometryPBF(pbf_itr const& geo_iterator)
 
 typename GeometryPBF::command GeometryPBF::point_next(value_type & rx, value_type & ry)
 {
-    if (length == 0) 
+    if (length == 0)
     {
         if (geo_itr_ != geo_end_itr_)
         {
@@ -600,7 +600,7 @@ typename GeometryPBF::command GeometryPBF::point_next(value_type & rx, value_typ
                 }
             }
         }
-        else 
+        else
         {
             return end;
         }
@@ -620,8 +620,8 @@ typename GeometryPBF::command GeometryPBF::point_next(value_type & rx, value_typ
     return move_to;
 }
 
-typename GeometryPBF::command GeometryPBF::line_next(value_type & rx, 
-                                                     value_type & ry, 
+typename GeometryPBF::command GeometryPBF::line_next(value_type & rx,
+                                                     value_type & ry,
                                                      bool skip_lineto_zero)
 {
     if (length == 0)
@@ -694,8 +694,8 @@ typename GeometryPBF::command GeometryPBF::line_next(value_type & rx,
     return line_to;
 }
 
-typename GeometryPBF::command GeometryPBF::ring_next(value_type & rx, 
-                                                     value_type & ry, 
+typename GeometryPBF::command GeometryPBF::ring_next(value_type & rx,
+                                                     value_type & ry,
                                                      bool skip_lineto_zero)
 {
     if (length == 0)
@@ -774,8 +774,8 @@ typename GeometryPBF::command GeometryPBF::ring_next(value_type & rx,
 }
 
 template <typename value_type>
-MAPNIK_VECTOR_INLINE mapnik::geometry::geometry<value_type> decode_geometry(GeometryPBF & paths, 
-                                                                            int32_t geom_type, 
+MAPNIK_VECTOR_INLINE mapnik::geometry::geometry<value_type> decode_geometry(GeometryPBF & paths,
+                                                                            int32_t geom_type,
                                                                             unsigned version,
                                                                             value_type tile_x,
                                                                             value_type tile_y,
@@ -814,8 +814,8 @@ MAPNIK_VECTOR_INLINE mapnik::geometry::geometry<value_type> decode_geometry(Geom
 }
 
 template <typename value_type>
-MAPNIK_VECTOR_INLINE mapnik::geometry::geometry<value_type> decode_geometry(GeometryPBF & paths, 
-                                                                            int32_t geom_type, 
+MAPNIK_VECTOR_INLINE mapnik::geometry::geometry<value_type> decode_geometry(GeometryPBF & paths,
+                                                                            int32_t geom_type,
                                                                             unsigned version,
                                                                             value_type tile_x,
                                                                             value_type tile_y,

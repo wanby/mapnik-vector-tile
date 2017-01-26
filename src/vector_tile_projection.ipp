@@ -2,7 +2,7 @@
 #include "vector_tile_config.hpp"
 
 // mapnik
-#include <mapnik/box2d.hpp>
+#include <mapnik/geometry/box2d.hpp>
 #include <mapnik/well_known_srs.hpp>
 
 // std
@@ -13,10 +13,10 @@
 #define M_PI 3.141592653589793238462643
 #endif
 
-namespace mapnik 
-{ 
+namespace mapnik
+{
 
-namespace vector_tile_impl 
+namespace vector_tile_impl
 {
 
 MAPNIK_VECTOR_INLINE void spherical_mercator::from_pixels(double shift, double & x, double & y)

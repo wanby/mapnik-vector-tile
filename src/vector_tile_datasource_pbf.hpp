@@ -2,7 +2,7 @@
 #define __MAPNIK_VECTOR_TILE_DATASOURCE_PBF_H__
 
 // mapnik
-#include <mapnik/box2d.hpp>
+#include <mapnik/geometry/box2d.hpp>
 #include <mapnik/datasource.hpp>
 #include <mapnik/util/variant.hpp>
 
@@ -11,7 +11,7 @@
 
 namespace mapnik
 {
-    
+
 namespace vector_tile_impl
 {
 
